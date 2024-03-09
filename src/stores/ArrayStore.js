@@ -24,7 +24,7 @@ export const useArrayStore = defineStore('array', () => {
   const getArr = computed(() => arr.value)
 
   const getAddedArray = computed(() => {
-    return arr.value ? arr.value.filter((el) => el.isAdded) : 0;
+    return arr.value ? arr.value.filter((el) => el.isAdded) : 0
   })
 
   const setArr = (value) => {

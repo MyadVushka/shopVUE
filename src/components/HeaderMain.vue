@@ -1,4 +1,9 @@
 <script setup>
+const props = defineProps({
+  currentSum: Number
+})
+
+const emits = defineEmits(['turnOnCart'])
 </script>
 
 <template>
@@ -11,9 +16,9 @@
       </div>
     </div>
     <ul class="flex gap-4">
-      <li class="cursor-pointer flex gap-2">
+      <li @click="emits('turnOnCart', true)" class="cursor-pointer flex gap-2">
         <img src="/public/cart.svg" alt="" />
-        <p class="font-medium">1205 руб.</p>
+        <p class="font-medium">{{ props.currentSum }} руб.</p>
       </li>
       <li class="cursor-pointer flex gap-2">
         <img src="/public/heart.svg" alt="" />

@@ -3,15 +3,22 @@ import { ref, watch } from 'vue'
 import { useArrayStore } from '@/stores/ArrayStore'
 import CardItem from './CardItem.vue'
 
-const arrayStore = useArrayStore()
+const emits = defineEmits(['currentSum'])
 
+const arrayStore = useArrayStore()
 const addFilteredArray = ref(null)
+const sum = ref(0)
 
 watch(
   () => arrayStore.getAddedArray,
   () => {
     addFilteredArray.value = arrayStore.getAddedArray
+    sum.value = addFilteredArray.value.reduce((sum, el) => {
+      return sum + el.price
+    }, 0)
     console.log(addFilteredArray.value)
+    emits('currentSum', sum.value)
+    console.log(sum.value)
   }
 )
 
