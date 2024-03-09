@@ -1,75 +1,55 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import CardItem from './CardItem.vue'
+import { ref, watch } from 'vue'
 import { useArrayStore } from '@/stores/ArrayStore'
+import CardItem from './CardItem.vue'
 
 const arrayStore = useArrayStore()
 
+const addFilteredArray = ref(null)
 
-const dataInfo = ref()
-
-onMounted(async () => {
-  try {
-    const data = await fetch('https://604781a0efa572c1.mokky.dev/items')
-    const info = await data.json()
-
-    dataInfo.value = info[16]
-    console.log(dataInfo.value)
-    arrayStore.setBeginArray(dataInfo.value)
-    console.log(arrayStore.getArray)
-  } catch (error) {
-    console.log(error)
+watch(
+  () => arrayStore.getAddedArray,
+  () => {
+    addFilteredArray.value = arrayStore.getAddedArray
+    console.log(addFilteredArray.value)
   }
-})
+)
 
+const onAddHandler = (id) => {
+  arrayStore.setAddToggle(id)
+}
 
-
-const emits = defineEmits(['generalNumber', 'generalArray'])
-
-const arrayData = ref([])
-const commonAmount = ref(0)
-
-const generalAmountHandler = (data) => {
-  if (data[2]) {
-    arrayData.value.push(data)
-  } else {
-    arrayData.value = arrayData.value.filter((el) => el[1] !== data[1])
-  }
-  console.log(arrayData.value)
-  commonAmount.value = arrayData.value.reduce(function (sum, el) {
-    return sum + el[0]
-  }, 0)
-
-  emits('generalNumber', commonAmount.value)
-  emits('generalArray', arrayData.value)
+const onFavouriteHandler = (id) => {
+  arrayStore.setFavouriteToggle(id)
 }
 </script>
 
 <template>
-  <section class="p-10">
-    <div class="side-menu flex items-center justify-between">
-      <h1 class="font-bold text-3xl">Все кроссовки</h1>
-      <div class="search relative">
-        <img class="absolute top-2 left-3" src="/public/search.svg" alt="" />
+  <section class="m-10">
+    <div class="flex items-center justify-between mb-14">
+      <h2 class="font-bold text-3xl">Все кроссовки</h2>
+      <div class="relative">
         <input
-          class="border-2 rounded-md p-1 pl-8 pr-2 border-slate-300"
+          class="border border-splate-600 p-2 pl-10 pr-4 rounded-md"
           type="text"
           placeholder="Поиск"
         />
+        <img class="absolute top-3 left-3" src="/public/search.svg" alt="" />
       </div>
     </div>
-    <div class="mt-10 cards-shower grid grid-rows-3 grid-cols-4">
+    <div class="cards-shower grid grid-rows-3 grid-cols-4">
       <CardItem
-        v-for="item in arrayStore.getArray"
+        v-for="item in arrayStore.arr"
         :key="item.id"
-        :price="item.price"
-        :img="item.imageUrl"
-        :title="item.title"
-        :id="Number(item.id)"
-        @item-price="(data) => generalAmountHandler(data)"
+        :id="item.id - 1"
+        :img-url="item.imageUrl"
+        :name="item.title"
+        :cost="item.price"
+        :is-added="item.isAdded"
+        :is-favourite="item.isFavourite"
+        @on-add="(id) => onAddHandler(id)"
+        @on-favourite="(id) => onFavouriteHandler(id)"
       />
     </div>
   </section>
 </template>
-
-<style scoped></style>

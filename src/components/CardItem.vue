@@ -1,59 +1,49 @@
-<script setup >
-import { ref } from 'vue'
-import { useArrayStore } from '@/stores/ArrayStore'
-
-const arrayStore = useArrayStore()
-
+<script setup>
 const props = defineProps({
-  price: Number,
-  title: String,
-  img: String,
-  id: Number
+  id: Number,
+  name: String,
+  cost: Number,
+  imgUrl: String,
+  isFavourite: Boolean,
+  isAdded: Boolean
 })
 
-const emits = defineEmits(['itemPrice'])
+const emits = defineEmits(['onAdd', 'onFavourite'])
 
-const isFavourite = ref(false)
+const onAdd = () => {
+  emits('onAdd', props.id)
+}
 
-const onClicAddHandler = () => {
-  arrayStore.setAddToggle(props.id)
-  emits('itemPrice', [
-    props.price,
-    props.id - 1,
-    arrayStore.getAddState(props.id),
-    props.title,
-    props.img
-  ])
+const onFavourite = () => {
+  emits('onFavourite', props.id)
 }
 </script>
 
 <template>
   <div
-    class="m-10 cursor-pointer border-2 rounded-3xl p-4 relative transition duration-300 hover:-translate-y-6 w-10/12 flex flex-col justify-center"
+    class="relative border w-72 px-8 rounded-3xl cursor-pointer transition duration-300 hover:-translate-y-5 hover:shadow-xl my-4 flex flex-col justify-around"
   >
-    <img
-      class="cursor-pointer absolute left-8 top-8"
-      @click="isFavourite = !isFavourite"
-      :src="isFavourite ? '/public/like-2.svg' : '/public/like-1.svg'"
-      alt=""
-    />
-    <img class="m-8" :src="props.img" alt="" />
-    <div class="text-block">
-      <p>{{ props.title }}</p>
-      <div class="flex items-center justify-between mt-4">
+    <img :src="props.imgUrl" alt="" />
+    <div class="flex flex-col gap-2">
+      <h2>{{ props.name }}</h2>
+      <div class="flex items-center justify-between">
         <div class="">
-          <p class="text-slate-500 font-medium">Цена:</p>
-          <p class="font-bold">{{ props.price }} руб.</p>
+          <p class="text-slate-400">Цена:</p>
+          <p class="font-bold">{{ props.cost }} руб.</p>
         </div>
         <img
-          class="cursor-pointer"
-          @click="onClicAddHandler"
-          :src="arrayStore.getAddState(props.id) ? '/public/checked.svg' : '/public/plus.svg'"
+          @click="onAdd"
+          class="absolute right-5 bottom-4 cursor-pointer"
+          :src="props.isAdded ? '/public/checked.svg' : '/public/plus.svg'"
+          alt=""
+        />
+        <img
+          @click="onFavourite"
+          class="absolute top-5"
+          :src="props.isFavourite ? '/public/like-2.svg' : '/public/like-1.svg'"
           alt=""
         />
       </div>
     </div>
   </div>
 </template>
-
-<style scoped></style>
