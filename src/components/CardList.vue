@@ -16,9 +16,7 @@ watch(
     sum.value = addFilteredArray.value.reduce((sum, el) => {
       return sum + el.price
     }, 0)
-    console.log(addFilteredArray.value)
     emits('currentSum', sum.value)
-    console.log(sum.value)
   }
 )
 
@@ -32,7 +30,7 @@ const onFavouriteHandler = (id) => {
 </script>
 
 <template>
-  <section class="m-10">
+  <section>
     <div class="flex items-center justify-between mb-14">
       <h2 class="font-bold text-3xl">Все кроссовки</h2>
       <div class="relative">

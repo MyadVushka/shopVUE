@@ -27,6 +27,10 @@ export const useArrayStore = defineStore('array', () => {
     return arr.value ? arr.value.filter((el) => el.isAdded) : 0
   })
 
+  const getFavouriteArray = computed(() => {
+    return arr.value ? arr.value.filter((el) => el.isFavourite) : 0
+  })
+
   const setArr = (value) => {
     arr.value = value
   }
@@ -36,5 +40,5 @@ export const useArrayStore = defineStore('array', () => {
   const setFavouriteToggle = (id) => {
     arr.value[id].isFavourite = !arr.value[id].isFavourite
   }
-  return { arr, getArr, setArr, getAddedArray, setAddToggle, setFavouriteToggle }
+  return { arr, getArr, setArr, getAddedArray, setAddToggle, setFavouriteToggle, getFavouriteArray }
 })

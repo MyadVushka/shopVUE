@@ -47,7 +47,7 @@ const onDeleteHandler = (id) => {
         </p>
       </div>
     </div>
-    <div v-else class="">
+    <div v-else class="flex flex-col h-svh justify-between">
       <div class="">
         <CartItem
           v-for="item in filteredArray"
@@ -59,7 +59,7 @@ const onDeleteHandler = (id) => {
           @on-delete="(id) => onDeleteHandler(id)"
         />
       </div>
-      <div class="fixed bottom-10 flex flex-col gap-2">
+      <div class="flex flex-col gap-2">
         <div class="flex items-baseline justify-between gap-4">
           <p>Итого:</p>
           <div class="border-b border-slate-400 border-dashed w-48"></div>
