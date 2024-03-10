@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 
 export const useArrayStore = defineStore('array', () => {
   const arr = ref(null)
-
+  const arrBought = ref(null)
   const setBeginArr = async () => {
     try {
       const data = await fetch('https://604781a0efa572c1.mokky.dev/items')
@@ -30,6 +30,9 @@ export const useArrayStore = defineStore('array', () => {
   const getFavouriteArray = computed(() => {
     return arr.value ? arr.value.filter((el) => el.isFavourite) : 0
   })
+  const getBoughtListArray = computed(() => {
+    return arrBought.value
+  })
 
   const setArr = (value) => {
     arr.value = value
@@ -40,5 +43,19 @@ export const useArrayStore = defineStore('array', () => {
   const setFavouriteToggle = (id) => {
     arr.value[id].isFavourite = !arr.value[id].isFavourite
   }
-  return { arr, getArr, setArr, getAddedArray, setAddToggle, setFavouriteToggle, getFavouriteArray }
+  const setBoughtListArray = () => {
+    arrBought.value = arr.value.filter((el) => el.isAdded)
+    
+  }
+  return {
+    arr,
+    getArr,
+    setArr,
+    getAddedArray,
+    setAddToggle,
+    setFavouriteToggle,
+    getFavouriteArray,
+    setBoughtListArray,
+    getBoughtListArray
+  }
 })

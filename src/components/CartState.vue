@@ -23,6 +23,12 @@ watch(
 const onDeleteHandler = (id) => {
   arrayStore.setAddToggle(id - 1)
 }
+
+const onBuyHandler = () => {
+  arrayStore.setBoughtListArray()
+  console.log(arrayStore.getBoughtListArray)
+  console.log(arrayStore.getArr)
+}
 </script>
 
 <template>
@@ -62,16 +68,17 @@ const onDeleteHandler = (id) => {
       <div class="flex flex-col gap-2">
         <div class="flex items-baseline justify-between gap-4">
           <p>Итого:</p>
-          <div class="border-b border-slate-400 border-dashed w-48"></div>
+          <div class="border-b border-slate-400 border-dashed w-52"></div>
           <div class="font-bold">{{ props.sum.toFixed(2) }} руб.</div>
         </div>
         <div class="flex items-baseline justify-between gap-4">
           <p class="whitespace-nowrap">Налог 5%:</p>
-          <div class="border-b border-slate-400 border-dashed w-48"></div>
+          <div class="border-b border-slate-400 border-dashed w-52"></div>
           <div class="font-bold">{{ (props.sum * 0.05).toFixed(2) }} руб.</div>
         </div>
         <div class="relative">
           <button
+            @click.prevent="onBuyHandler"
             class="bg-lime-400 text-white rounded-2xl text-center py-4 w-full transition hover:bg-lime-500"
           >
             Оформить заказ
