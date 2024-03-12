@@ -2,8 +2,9 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useArrayStore = defineStore('array', () => {
-  const arr = ref(null)
-  const arrBought = ref(null)
+  let arr = ref(null)
+  const arrBought = ref([])
+
   const setBeginArr = async () => {
     try {
       const data = await fetch('https://604781a0efa572c1.mokky.dev/items')
@@ -12,7 +13,6 @@ export const useArrayStore = defineStore('array', () => {
       for (let i = 0; i < 12; i++) {
         tempData.push(info[16][i])
       }
-      console.log(tempData)
       arr.value = tempData
     } catch (error) {
       console.log(error)
@@ -23,8 +23,13 @@ export const useArrayStore = defineStore('array', () => {
 
   const getArr = computed(() => arr.value)
 
-  const getAddedArray = computed(() => {
-    return arr.value ? arr.value.filter((el) => el.isAdded) : 0
+  const getAddedArray = computed({
+    get() {
+      return arr.value ? arr.value.filter((el) => el.isAdded) : 0
+    },
+    set(value) {
+      arr.value.isAdded = value
+    }
   })
 
   const getFavouriteArray = computed(() => {
@@ -44,9 +49,13 @@ export const useArrayStore = defineStore('array', () => {
     arr.value[id].isFavourite = !arr.value[id].isFavourite
   }
   const setBoughtListArray = () => {
-    arrBought.value = arr.value.filter((el) => el.isAdded)
-    
+    let temp = arr.value.filter((el) => el.isAdded)
+    for (const item in temp) {
+      arrBought.value.push(temp[item])
+    }
+    arr.value = arr.value.map((el) => el && { ...el, isAdded: false }) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   }
+
   return {
     arr,
     getArr,

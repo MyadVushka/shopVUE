@@ -26,8 +26,6 @@ const onDeleteHandler = (id) => {
 
 const onBuyHandler = () => {
   arrayStore.setBoughtListArray()
-  console.log(arrayStore.getBoughtListArray)
-  console.log(arrayStore.getArr)
 }
 </script>
 
