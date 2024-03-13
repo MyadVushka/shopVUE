@@ -15,13 +15,6 @@ watch(
 )
 </script>
 
-<!-- id: Number,
-name: String,
-cost: Number,
-imgUrl: String,
-isFavourite: Boolean,
-isAdded: Boolean -->
-
 <template>
   <section class="p-10 h-svh overflow-y-hidden">
     <div class="flex gap-4 items-center">
@@ -31,7 +24,7 @@ isAdded: Boolean -->
       <p class="font-bold text-3xl">Мои покупки</p>
     </div>
     <div v-if="boughtListArray !== null" class="">
-      <div class="mt-10 grid grid-cols-4 grid-rows-4">
+      <div v-auto-animate class="mt-10 grid grid-cols-4 grid-rows-4">
         <CardItem
           v-for="item in boughtListArray"
           :key="item.id"

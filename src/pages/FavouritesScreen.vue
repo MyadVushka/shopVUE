@@ -30,7 +30,11 @@ const onFavouriteHandler = (id) => {
       <p class="font-bold text-3xl">Мои закладки</p>
     </div>
     <div>
-      <div v-if="filteredFavouriteArray.length" class="mt-10 grid grid-cols-4 grid-rows-4">
+      <div
+        v-auto-animate
+        v-if="filteredFavouriteArray.length"
+        class="mt-10 grid grid-cols-4 grid-rows-4"
+      >
         <CardItem
           v-for="item in filteredFavouriteArray"
           :key="item.id"

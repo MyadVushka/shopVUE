@@ -10,6 +10,7 @@ const props = defineProps({
 const emits = defineEmits(['turnOffCartState'])
 
 const arrayStore = useArrayStore()
+const boughtState = ref(false)
 
 const filteredArray = ref(arrayStore.getAddedArray)
 
@@ -26,6 +27,12 @@ const onDeleteHandler = (id) => {
 
 const onBuyHandler = () => {
   arrayStore.setBoughtListArray()
+  boughtState.value = true
+}
+
+const onCloseHandler = () => {
+  emits('turnOffCartState', false)
+  boughtState.value = false
 }
 </script>
 
@@ -34,14 +41,24 @@ const onBuyHandler = () => {
   <div class="fixed w-3/12 h-svh top-0 right-0 z-30 bg-white p-6 flex flex-col">
     <div class="flex items-center justify-between">
       <img
-        @click="emits('turnOffCartState', false)"
+        @click="onCloseHandler"
         class="rotate-180 cursor-pointer"
         src="/public/arrow-next.svg"
         alt=""
       />
       <h2 class="font-bold text-2xl">Корзина</h2>
     </div>
-    <div v-if="props.sum === 0" class="mt-72">
+    <div v-if="boughtState" class="mt-72">
+      <img class="mx-auto" src="/public/order-success-icon.png" alt="" />
+      <div class="mt-4">
+        <h2 class="font-bold text-center text-2xl text-lime-500">Заказ оформлен!</h2>
+        <p class="text-slate-400 text-center text-lg">
+          Ваш заказ №18 скоро будете передан <br />
+          курьерской доставке
+        </p>
+      </div>
+    </div>
+    <div v-else-if="props.sum === 0" class="mt-72">
       <img class="mx-auto" src="/public/package-icon.png" alt="" />
       <div class="mt-4">
         <h2 class="font-bold text-center text-2xl">Корзина пустая</h2>
@@ -52,8 +69,9 @@ const onBuyHandler = () => {
       </div>
     </div>
     <div v-else class="flex flex-col h-svh justify-between">
-      <div class="">
+      <div v-auto-animate>
         <CartItem
+
           v-for="item in filteredArray"
           :key="item.id"
           :cost="item.price"
