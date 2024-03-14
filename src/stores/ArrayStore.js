@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useArrayStore = defineStore('array', () => {
-  let arr = ref(null)
+  const isLoaded = ref(false)
+  const arr = ref(null)
   const arrBought = ref([])
 
   const setBeginArr = async () => {
@@ -14,6 +15,7 @@ export const useArrayStore = defineStore('array', () => {
         tempData.push(info[16][i])
       }
       arr.value = tempData
+      isLoaded.value = true
     } catch (error) {
       console.log(error)
     }
@@ -22,6 +24,8 @@ export const useArrayStore = defineStore('array', () => {
   setBeginArr()
 
   const getArr = computed(() => arr.value)
+
+  const getStateLoad = computed(() => isLoaded.value)
 
   const getAddedArray = computed({
     get() {
@@ -60,6 +64,7 @@ export const useArrayStore = defineStore('array', () => {
     arr,
     getArr,
     setArr,
+    getStateLoad,
     getAddedArray,
     setAddToggle,
     setFavouriteToggle,

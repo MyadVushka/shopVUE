@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { useArrayStore } from '@/stores/ArrayStore'
 import CardItem from './CardItem.vue'
+import SkeletonCard from './SkeletonCard.vue'
 
 const emits = defineEmits(['currentSum'])
 
@@ -27,6 +28,8 @@ const onAddHandler = (id) => {
 const onFavouriteHandler = (id) => {
   arrayStore.setFavouriteToggle(id)
 }
+
+const skeletonArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 </script>
 
 <template>
@@ -42,7 +45,7 @@ const onFavouriteHandler = (id) => {
         <img class="absolute top-3 left-3" src="/public/search.svg" alt="" />
       </div>
     </div>
-    <div class="cards-shower grid grid-rows-3 grid-cols-4">
+    <div v-if="arrayStore.getStateLoad" class="cards-shower grid grid-rows-3 grid-cols-4">
       <CardItem
         v-for="item in arrayStore.arr"
         :key="item.id"
@@ -55,6 +58,9 @@ const onFavouriteHandler = (id) => {
         @on-add="(id) => onAddHandler(id)"
         @on-favourite="(id) => onFavouriteHandler(id)"
       />
+    </div>
+    <div v-else class="skeleton-shower grid grid-rows-3 grid-cols-4">
+      <SkeletonCard v-for="count in skeletonArr" :key="count" />
     </div>
   </section>
 </template>
