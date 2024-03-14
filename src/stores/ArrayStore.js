@@ -47,11 +47,9 @@ export const useArrayStore = defineStore('array', () => {
     return filteredBySearch.value
   })
   const setFilteredBySearchArray = (value) => {
-    if (arr.value !== null) {
-      for (let i = 0; i< arr.value.length; i++) {
-        if (arr.value[i].title.toLowerCase().includes(value.toLowerCase())) {
-          filteredBySearch.value.push(arr.value[i]);
-        }
+    for (let i = 0; i < arr.value.length; i++) {
+      if (arr.value[i].title.toLowerCase().includes(value.toLowerCase())) {
+        filteredBySearch.value.push(arr.value[i])
       }
     }
   }

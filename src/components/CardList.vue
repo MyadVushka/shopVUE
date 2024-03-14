@@ -53,9 +53,9 @@ watch(currentReq, () => {
 })
 
 let debounceHandler = debounce(function () {
+  arrayStore.setFilteredBySearchArrayClear()
   arrayStore.setFilteredBySearchArray(currentReq.value)
   requestedArr.value = arrayStore.getFilteredBySearchArray
-  console.log(arrayStore.getFilteredBySearchArray)
 }, 300)
 
 // Search Request Block end
