@@ -34,13 +34,13 @@ const onFavourite = () => {
         <img
           @click="onAdd"
           class="absolute right-5 bottom-4 w-8 h-8 cursor-pointer"
-          :src="props.isAdded ? '/public/checked.svg' : '/public/plus.svg'"
+          :src="props.isAdded ? '/checked.svg' : '/plus.svg'"
           alt=""
         />
         <img
           @click="onFavourite"
           class="absolute top-5 w-8 h-8"
-          :src="props.isFavourite ? '/public/like-2.svg' : '/public/like-1.svg'"
+          :src="props.isFavourite ? '/like-2.svg' : '/like-1.svg'"
           alt=""
         />
       </div>
