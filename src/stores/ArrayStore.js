@@ -5,6 +5,7 @@ export const useArrayStore = defineStore('array', () => {
   const isLoaded = ref(false)
   const arr = ref(null)
   const arrBought = ref([])
+  const filteredBySearch = ref([])
 
   const setBeginArr = async () => {
     try {
@@ -42,6 +43,22 @@ export const useArrayStore = defineStore('array', () => {
   const getBoughtListArray = computed(() => {
     return arrBought.value
   })
+  const getFilteredBySearchArray = computed(() => {
+    return filteredBySearch.value
+  })
+  const setFilteredBySearchArray = (value) => {
+    if (arr.value !== null) {
+      for (let i = 0; i< arr.value.length; i++) {
+        if (arr.value[i].title.toLowerCase().includes(value.toLowerCase())) {
+          filteredBySearch.value.push(arr.value[i]);
+        }
+      }
+    }
+  }
+
+  const setFilteredBySearchArrayClear = () => {
+    filteredBySearch.value = []
+  }
 
   const setArr = (value) => {
     arr.value = value
@@ -70,6 +87,9 @@ export const useArrayStore = defineStore('array', () => {
     setFavouriteToggle,
     getFavouriteArray,
     setBoughtListArray,
-    getBoughtListArray
+    getBoughtListArray,
+    getFilteredBySearchArray,
+    setFilteredBySearchArray,
+    setFilteredBySearchArrayClear
   }
 })
