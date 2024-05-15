@@ -17,7 +17,7 @@ const emits = defineEmits(['turnOnCart'])
         </div>
       </div>
     </router-link>
-    <ul class="flex gap-4">
+    <ul class="flex gap-5 text-nowrap">
       <li @click="emits('turnOnCart', true)" class="cursor-pointer flex gap-2">
         <img src="/public/cart.svg" alt="" />
         <p class="font-medium">{{ props.currentSum }} руб.</p>
